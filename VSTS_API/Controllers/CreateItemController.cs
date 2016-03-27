@@ -14,8 +14,8 @@ namespace VSTF_API.Controllers
 {
     public class CreateItemController : ApiController
     {
-        private string username = ConfigurationManager.AppSettings["username"];
-        private string password = ConfigurationManager.AppSettings["password"];
+        private string username = ConfigurationManager.AppSettings["uname"];
+        private string password = ConfigurationManager.AppSettings["pword"];
         private string domain = ConfigurationManager.AppSettings["domain"];
         [Metadata(friendlyName: "Create New Item", description: "Create New Item in VSTS")]
         [HttpPost, Route("api/tfs/create")]
