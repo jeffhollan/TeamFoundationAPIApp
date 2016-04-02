@@ -8,14 +8,15 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TRex.Metadata;
+using VSTS_API.App_Start;
 using VSTS_API.Models;
 
 namespace VSTF_API.Controllers
 {
     public class CreateItemController : ApiController
     {
-        private string username = ConfigurationManager.AppSettings["username"];
-        private string password = ConfigurationManager.AppSettings["password"];
+        private string username = ConfigurationManager.AppSettings["uname"];
+        private string password = ConfigurationManager.AppSettings["pword"];
         private string domain = ConfigurationManager.AppSettings["domain"];
         [Metadata(friendlyName: "Create New Item", description: "Create New Item in VSTS")]
         [HttpPost, Route("api/tfs/create")]
@@ -26,7 +27,7 @@ namespace VSTF_API.Controllers
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(collectionUri, new NetworkCredential(username, password, domain));
             WorkItemStore workItemStore = tpc.GetService<WorkItemStore>();
             Project teamProject = workItemStore.Projects[requestedProject];
-            WorkItemType workItemType = teamProject.WorkItemTypes[requestedWorkItem.Type];
+            WorkItemType workItemType = teamProject.WorkItemTypes[Utils.GetTFSType(requestedWorkItem.Type)];
 
             // Create the work item. 
             WorkItem newWorkItem = new WorkItem(workItemType)
