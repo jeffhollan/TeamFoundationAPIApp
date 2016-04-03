@@ -19,7 +19,7 @@ namespace VSTF_API.Controllers
         private string password = ConfigurationManager.AppSettings["pword"];
         private string domain = ConfigurationManager.AppSettings["domain"];
         [Metadata(friendlyName: "Create New Item", description: "Create New Item in VSTS")]
-        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.OK, "New Work Item", typeof(WorkItem))]
+        [Swashbuckle.Swagger.Annotations.SwaggerResponse(HttpStatusCode.OK, "New Work Item", typeof(SimpleWorkItem))]
         [HttpPost, Route("api/tfs/create")]
         public HttpResponseMessage CreateItem([FromUri] string requestedCollectionUri, [FromUri] string requestedProject, [FromBody] SimpleWorkItem requestedWorkItem)
         {
@@ -46,7 +46,8 @@ namespace VSTF_API.Controllers
             RelatedLink parent = new RelatedLink(workItemStore.WorkItemLinkTypes.LinkTypeEnds[requestedWorkItem.LinkType], requestedWorkItem.LinkId);
             newWorkItem.Links.Add(parent);
             newWorkItem.Save();
-            return Request.CreateResponse<WorkItem>(HttpStatusCode.OK, newWorkItem);
+            requestedWorkItem.id = newWorkItem.Id;
+            return Request.CreateResponse<SimpleWorkItem>(HttpStatusCode.OK, requestedWorkItem);
 
         }
 
