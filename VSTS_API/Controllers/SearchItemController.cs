@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TRex.Metadata;
 using VSTS_API.App_Start;
 using VSTS_API.Models;
 
@@ -19,6 +20,7 @@ namespace VSTS_API.Controllers
         private string domain = ConfigurationManager.AppSettings["domain"];
 
         [HttpPost, Route("api/tfs/search")]
+        [Metadata("Search TFS")]
         public HttpResponseMessage SearchItem([FromUri] string requestedCollectionUri, [FromUri] string requestedProject, [FromUri] int count, [FromBody] BasicQuery query)
         {
             string type = Utils.GetTFSType(query.type);
