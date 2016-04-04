@@ -19,12 +19,12 @@ namespace VSTS_API.Controllers
         private string domain = ConfigurationManager.AppSettings["domain"];
 
 
-        public HttpResponseMessage getTopItems([FromUri] string requestedCollectionUri, [FromUri] string requestedProject, [FromUri] int count, [FromBody] string body)
+        public HttpResponseMessage getTopItems([FromUri] string requestedCollectionUri, [FromUri] string requestedProject, [FromUri] int count, [FromUri] string query)
         {
             Uri collectionUri = new Uri(requestedCollectionUri);
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(collectionUri, new NetworkCredential(username, password, domain));
             WorkItemStore workItemStore = tpc.GetService<WorkItemStore>();
-            WorkItemCollection queryResults = workItemStore.Query(body);
+            WorkItemCollection queryResults = workItemStore.Query(query);
             var response = (from WorkItem r in queryResults
                             select new SimpleWorkItem
                             {
@@ -38,5 +38,10 @@ namespace VSTS_API.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
+    }
+
+    public class ExecuteRequest
+    {
+        public string query { get; set; }
     }
 }
