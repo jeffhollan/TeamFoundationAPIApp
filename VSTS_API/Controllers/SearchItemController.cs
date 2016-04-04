@@ -34,7 +34,7 @@ namespace VSTS_API.Controllers
                 "From Workitems " +
                 "Where [Work Item Type] = '" + type + "' and [State] != 'Removed' and [State] != 'Closed' and " + 
                 "[State] != 'Resolved' and [Area Path] under 'RD\\Azure App Plat\\Logic Apps' and [Title] contains '" + filter + "' " +
-                "Order By [Stack Rank] Asc"
+                "Order By [Stack Rank] Desc"
                 );
             var response = (from WorkItem r in queryResults select new SimpleWorkItem {
                 Title = r.Title,
