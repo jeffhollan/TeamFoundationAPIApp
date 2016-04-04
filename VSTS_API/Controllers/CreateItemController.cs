@@ -39,10 +39,17 @@ namespace VSTF_API.Controllers
                 Title = requestedWorkItem.Title,
                 AreaPath = requestedWorkItem.AreaPath,
                 State = requestedWorkItem.State,
-                IterationPath = requestedWorkItem.IterationPath
+                IterationPath = requestedWorkItem.IterationPath,
 
             };
-
+            if(requestedWorkItem.Type == "RDBug")
+            {
+                newWorkItem.Fields["Issue Type"].Value = "Code Defect";
+                newWorkItem.Fields["How Found"].Value = requestedWorkItem.HowFound;
+                newWorkItem.Fields["Assigned To"].Value = requestedWorkItem.AssignedTo;
+                newWorkItem.Fields["Priority"].Value = requestedWorkItem.Priority;
+                newWorkItem.Fields["Severity"].Value = 2;
+            }
             RelatedLink parent = new RelatedLink(workItemStore.WorkItemLinkTypes.LinkTypeEnds[requestedWorkItem.LinkType], requestedWorkItem.LinkId);
             newWorkItem.Links.Add(parent);
             newWorkItem.Save();

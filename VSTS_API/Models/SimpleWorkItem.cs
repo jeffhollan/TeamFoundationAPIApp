@@ -21,7 +21,10 @@ namespace VSTS_API.Models
         public int LinkId { get; set; }
 
         public int id { get; set; }
+        public string AssignedTo { get; set; }
+        public string HowFound { get; set; }
 
+        public int Priority { get; set; }
     }
 
     public class BasicQuery
